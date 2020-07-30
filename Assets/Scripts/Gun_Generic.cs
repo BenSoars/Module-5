@@ -19,45 +19,45 @@ public class Gun_Generic : MonoBehaviour
     [Space(2)]
     [Header("Weapon Accuracy")]
     [Space(2)]
-    public bool m_isAccurate = true;
-    public List<float> m_accuracyMinRange = new List<float>();
-    public List<float> m_accuracyMaxRange = new List<float>();
-    private List<float> m_accuracyGenerated = new List<float>();
+    public bool m_isAccurate = true; // if the gun is accurate or not
+    public List<float> m_accuracyMinRange = new List<float>(); // min range for accuracy
+    public List<float> m_accuracyMaxRange = new List<float>(); // max range for accuracy
+    private List<float> m_accuracyGenerated = new List<float>(); // the generated accuracy
     private Vector3 m_newAccuracy;
 
     [Space(2)]
     [Header("Weapon Aim Sights")]
     [Space(2)]
-    public bool m_canAim = false;
-    private bool m_isAiming = false;
-    public Camera m_playerCam;
+    public bool m_canAim = false;  // allows the weapon to aim down sights
+    private bool m_isAiming = false; // if the weapon is currently being aimed
+    public Camera m_playerCam; // the player camera, allows for the changing of FOV for aiming
 
     //Kurtis Watson and Ben Soars
     [Space(2)]
     [Header("Weapon Other Stats")]
     [Space(2)]
     public float m_shotForce = 100; // how much force the bullet will be shot for, it hitscan leave blank
-    public float m_bulletDamage;
-    public int m_minBulletDamage;
-    public int m_maxBulletDamage;
+    public float m_bulletDamage; // damage of the shot
+    public int m_minBulletDamage; // the minimum damage for the bullet
+    public int m_maxBulletDamage; // the macimum damage for the bullet
 
     [Space(2)]
     [Header("Shot Type")]
     [Space(2)]
     public Rigidbody m_physicalBullet; // leave this blank if the gun is hitscan
     public Transform m_shotPoint; // the point where the bullet is shot from
-    private Rigidbody m_shotBullet;
+    private Rigidbody m_shotBullet;  // the bullet that's physical
 
     private RaycastHit m_hitscanCast; // the hitscan raycast
     public GameObject hitSpark;
 
     private Text m_ammoCount; // the ui element displaying the current ammo
-    private Player_Controller m_player; 
+    private Player_Controller m_player; // get the player component
 
     [Space(2)]
     [Header("Other")]
     [Space(2)]
-    public Animator m_gunAnim;
+    public Animator m_gunAnim; // the animations for gun
 
     //Kurtis Watson
 
@@ -75,19 +75,19 @@ public class Gun_Generic : MonoBehaviour
 
     void f_ShootGun()
     {
-        if (m_gunAnim)
+        if (m_gunAnim) // if the gun has an animator
         {
-            m_gunAnim.SetTrigger("Shot");
+            m_gunAnim.SetTrigger("Shot"); // play shot animations
         }
             for (int i = 0; i < m_ammoPerShot; i++)
         {
             if (!m_isAccurate)
             {
-                m_newAccuracy = f_BulletSpread();
+                m_newAccuracy = f_BulletSpread(); // generate a new accuracy if the gun isn't set to be accurate
             }
             else
             {
-                m_newAccuracy = m_shotPoint.forward;
+                m_newAccuracy = m_shotPoint.forward;  // is accurate, uses default accuracy
             }
 
             if (m_physicalBullet) // if a physical bullet is there
@@ -104,10 +104,10 @@ public class Gun_Generic : MonoBehaviour
 
                     if (m_hitscanCast.transform.gameObject.CompareTag("Enemy")) // if an enemy was hit take away their health based on damage
                     {
-                        m_hitscanCast.transform.gameObject.GetComponent<Enemy_Controller>().m_enemyHealth -= m_bulletDamage;
+                        m_hitscanCast.transform.gameObject.GetComponent<Enemy_Controller>().m_enemyHealth -= m_bulletDamage; // damage the player
                         //Kurtis Watson
-                        GameObject m_textObject = Instantiate(m_hitDamageText, m_hitscanCast.point, Quaternion.identity);
-                        m_textObject.GetComponentInChildren<TextMeshPro>().text = "" + m_bulletDamage;
+                        GameObject m_textObject = Instantiate(m_hitDamageText, m_hitscanCast.point, Quaternion.identity); // spawn a damage 
+                        m_textObject.GetComponentInChildren<TextMeshPro>().text = "" + m_bulletDamage; // assign damage dealt to the text
                     }
                 }
             }
@@ -124,58 +124,60 @@ public class Gun_Generic : MonoBehaviour
             m_accuracyGenerated.Add(Random.Range(m_accuracyMinRange[j], m_accuracyMaxRange[j])); // randomly generate accuracy
         }
         Vector3 accuracy = new Vector3(m_shotPoint.forward.x + m_accuracyGenerated[0], m_shotPoint.forward.y + m_accuracyGenerated[1], m_shotPoint.forward.z + m_accuracyGenerated[2]); // send back accuracy
-        return accuracy;
+        return accuracy; // return the accuracy
     }
 
     void Update()
     {
-        m_bulletDamage = Random.Range(m_minBulletDamage, m_maxBulletDamage);
-        if (m_player.m_isPlayerActive == true && m_player.m_isUsingLadder == false)
-        {
-            if (m_player.m_isSprinting == false)
+        m_bulletDamage = Random.Range(m_minBulletDamage, m_maxBulletDamage);  // generate random damage
+        if (m_player.m_isPlayerActive == true && m_player.m_isUsingLadder == false) // if the player is active and not on a ladder
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (m_player.m_isSprinting == false) // if the player isn't sprintin
                 {
-                    if (m_currentAmmo > 0)
+                    if (Input.GetKeyDown(KeyCode.Mouse0)) // and the player has fired their weapon
                     {
-                        f_ShootGun();
+                        if (m_currentAmmo > 0) // if there is ammo
+                        {
+                            f_ShootGun(); // shoot the gun, run the shoot function
+                        }
+                        f_updateUI(); // update the ui
                     }
-                    f_updateUI();
                 }
-            }
 
-            if (m_canAim == true)
+            if (m_canAim == true) // if the player is able to aim down sights with this weapon
             {
-                if (Input.GetKey(KeyCode.Mouse1) && m_player.m_isSprinting == false)
+                if (Input.GetKey(KeyCode.Mouse1) && m_player.m_isSprinting == false) // if they're holding down right mouse and aren't sprinting
                 {
-                    m_isAiming = true;
-                    m_isAccurate = true;
-                    m_playerCam.fieldOfView = 40;
+                    m_isAiming = true; // they are aiming
+                    m_isAccurate = true; // gun becomes accurate
+                    m_playerCam.fieldOfView = 40; // change FOV to be smaller
                 }
                 else
                 {
-                    m_isAiming = false;
-                    m_isAccurate = false;
-                    m_playerCam.fieldOfView = 60;
+                    m_isAiming = false; // no longer aiming
+                    m_isAccurate = false; // gun becomes inaccurate
+                    m_playerCam.fieldOfView = 60; // FOV gets reset
                 }
             }
             else
             {
+                // else reset everything
                 m_isAiming = false;
                 m_isAccurate = false;
                 m_playerCam.fieldOfView = 60;
             }
         }
 
-        if (m_gunAnim)
+        if (m_gunAnim) // if there is a gun animatior
         {
+            // update gun animations
             m_gunAnim.SetBool("Aim", m_isAiming);
             m_gunAnim.SetBool("Run", m_player.m_isSprinting);
         }
     }
 
     
-    public void f_updateUI()
+    public void f_updateUI() // update the UI to reflect the current ammo count
     {
         m_ammoCount.text = (m_currentAmmo.ToString() + "/" + m_maxAmmo.ToString());
     }
