@@ -6,32 +6,28 @@ public class Explode : MonoBehaviour
 {
     // Ben Soars
 
-    public bool m_ExplodeOnContact;
-    public float m_Timer;
+    // used for grenades
+    public bool m_ExplodeOnContact; // enable if the grenade will explode on contact with any object
+    public float m_Timer; // the time before it explodes
 
-    public GameObject Explosion;
+    public GameObject Explosion; // the explosion effect gameobject
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        Invoke("f_createExplosion", m_Timer);
+        Invoke("f_createExplosion", m_Timer); // call the explosion effect after, after a passed time
     }
 
-    void OnCollisionEnter(Collision other)
+    void OnCollisionEnter(Collision other) // if it collides with another collider
     {
-        if (m_ExplodeOnContact)
+        if (m_ExplodeOnContact) // if it can explode on contact with
         {
-            f_createExplosion();
+            f_createExplosion(); // instnatly create the explosion
         }
     }
 
-    void f_createExplosion()
+    void f_createExplosion() // spawn the explosion effect and destroy self
     {
         Instantiate(Explosion, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
