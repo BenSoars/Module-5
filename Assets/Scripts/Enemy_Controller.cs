@@ -10,29 +10,30 @@ public class Enemy_Controller : MonoBehaviour
     // Ben Soars
     private NavMeshAgent m_navAgent;
 
-    public float m_moveSpeed = 2;
-    public float m_runSpeed = 4;
-    public float m_enemyHealth = 3;
-    public float m_enemyDamage = 5;
-    public float m_attackTime = 2;
-    public int m_spawnChance = 3;
-    public bool m_isStunned;
-    private bool m_resetStun;
-    private bool m_isAttacking;
+    public float m_moveSpeed = 2;// the default movement speed
+    public float m_runSpeed = 4; // the running speed, used when it spots the player
+    public float m_enemyHealth = 3; // the enemy health
+    public float m_enemyDamage = 5; // the damage the enemy does to the player
+    public float m_attackTime = 2; //the time inbetween attacks
+    public int m_spawnChance = 3;  // chance for it to spawn an item on death
+    public bool m_isStunned; // is stunend
+    private bool m_resetStun; // reset the stun
+    private bool m_isAttacking; // used to tell if the enemy is currently attacking
 
-    public bool m_isRanged = false;
-    public Projectile m_projectile;
+    public bool m_isRanged = false; // if the enemy is a ranged type
+    public Projectile m_projectile; // the projectile they fire
 
+    // access to other componenets
     private Player_Controller r_player;
     private Wave_System r_waveSystem;
     private Rigidbody m_rb;
     private Animator r_anim;
 
     public List<GameObject> m_ItemDrops = new List<GameObject>(); // item drop
-    public bool m_isGrounded = true;
+    public bool m_isGrounded = true; // used to check if they're on the ground
 
-    public Vector3 m_lastPosition;
-    private int m_randomNumber;
+    public Vector3 m_lastPosition; // the last position the enemy saw the player at
+    private int m_randomNumber; // a random number
 
     [System.Serializable]
     public enum CurrentState // The current state
@@ -41,18 +42,18 @@ public class Enemy_Controller : MonoBehaviour
         Attack,
         Check
     }
-    public CurrentState m_state;
+    public CurrentState m_state; 
 
-    public Transform m_eyePos;
+    public Transform m_eyePos; // the sight light position
     private RaycastHit m_sightRaycast; // the hitscan raycast
-    public LayerMask layerMask; // 
+    public LayerMask layerMask; // the gameobject layer which sightlines will ignore
 
-    public Enemy_Damage m_hurtBox;
+    public Enemy_Damage m_hurtBox; // the enemy hurtbox
 
     //Kurtis Watson
     private Prototype_Classes r_prototypeClasses;
 
-    public GameObject m_whisp;
+    public GameObject m_whisp; 
     public bool m_isEnemyInfected;
     private bool m_previouslyInfected;
     private bool m_particleSystem;
@@ -62,6 +63,7 @@ public class Enemy_Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // get the components that are defined at the top
         m_rb = gameObject.GetComponent<Rigidbody>(); // get rigidbody
         m_navAgent = gameObject.GetComponent<NavMeshAgent>();
         r_anim = gameObject.GetComponent<Animator>();
@@ -69,8 +71,8 @@ public class Enemy_Controller : MonoBehaviour
         r_waveSystem = FindObjectOfType<Wave_System>();
         r_prototypeClasses = FindObjectOfType<Prototype_Classes>();
 
-        m_defaultRunSpeed = m_runSpeed;
-        m_hurtBox.m_damage = m_enemyDamage;
+        m_defaultRunSpeed = m_runSpeed;// set the default run speed
+        m_hurtBox.m_damage = m_enemyDamage; // set the hurtbox damage to represent the enemy damage
     }
 
     void Update()
@@ -87,19 +89,20 @@ public class Enemy_Controller : MonoBehaviour
             m_enemyHealth -= 0.1f;
             GetComponentInChildren<BoxCollider>().enabled = true;
             Invoke("f_resetInfection", 10);
-        }       
+        }
 
         //Ben Soars
         // line of sight
-        Vector3 newDirection = (r_player.transform.localPosition - m_eyePos.position).normalized;
-        m_eyePos.rotation = Quaternion.LookRotation(new Vector3(newDirection.x, newDirection.y, newDirection.z));
+        Vector3 newDirection = (r_player.transform.localPosition - m_eyePos.position).normalized; // look at the player
+        m_eyePos.rotation = Quaternion.LookRotation(new Vector3(newDirection.x, newDirection.y, newDirection.z)); // looking at the player
 
-
+        // resetting stunned state
         if (m_isStunned == true && m_resetStun == false)
         {
-            m_resetStun = true;
-            Invoke("f_resetStun", 2);
+            m_resetStun = true; // reset the stun
+            Invoke("f_resetStun", 2); // reset the stun after 2 seconds
         }
+
 
         //Ben Soars
         if (m_enemyHealth <= 0)
@@ -108,19 +111,19 @@ public class Enemy_Controller : MonoBehaviour
             r_prototypeClasses.m_currentFog = r_prototypeClasses.m_currentFog - r_waveSystem.m_fogMath;
 
             //Ben Soars
-            int rando = UnityEngine.Random.Range(0, m_spawnChance);
-            if (rando == 1)
+            int rando = UnityEngine.Random.Range(0, m_spawnChance); // generate random number
+            if (rando == 1) // if it returned 1
             {
-                rando = UnityEngine.Random.Range(0, m_ItemDrops.Count);
-                Instantiate(m_ItemDrops[rando], transform.position, Quaternion.identity);
+                rando = UnityEngine.Random.Range(0, m_ItemDrops.Count); // choose a random item from the item pool
+                Instantiate(m_ItemDrops[rando], transform.position, Quaternion.identity); // spawn that item
             }
 
-            Destroy(gameObject);
+            Destroy(gameObject); // destroy self
 
             //Kurtis Watson
-            GameObject isNewWisp = Instantiate(m_whisp, transform.position, Quaternion.identity);
-            isNewWisp.GetComponent<Wisp_Controller>().m_enemySpawn = true;
-            r_waveSystem.enemiesLeft -= 1;
+            GameObject isNewWisp = Instantiate(m_whisp, transform.position, Quaternion.identity); // spawn a wisp
+            isNewWisp.GetComponent<Wisp_Controller>().m_enemySpawn = true; // set the wisp to recognise it was spawned from a defeated enemy
+            r_waveSystem.enemiesLeft -= 1; // take away from the enemies left
         }
 
 
@@ -128,17 +131,17 @@ public class Enemy_Controller : MonoBehaviour
         if (Physics.Raycast(m_eyePos.position, m_eyePos.forward, out m_sightRaycast, Mathf.Infinity, layerMask)) // shoot out a raycast for hitscan
         {
             Debug.DrawRay(m_eyePos.position, m_eyePos.forward * m_sightRaycast.distance, Color.yellow); // draw line only viewable ineditor
-            if (m_sightRaycast.collider.gameObject.CompareTag("Player") && r_player.m_isPlayerInvisible == false)
+            if (m_sightRaycast.collider.gameObject.CompareTag("Player") && r_player.m_isPlayerInvisible == false) // if it can see the player 
             {
-                m_state = CurrentState.Attack;
-                m_lastPosition = r_player.transform.position;
+                m_state = CurrentState.Attack; // set the enemy to be attacking
+                m_lastPosition = r_player.transform.position; // set the last position of the player
 
             }
-            else if (m_state == CurrentState.Attack)
+            else if (m_state == CurrentState.Attack) // if they're attacking and they can't see the player
             {
-                m_state = CurrentState.Check;
+                m_state = CurrentState.Check; // set to check for the player
             }
-           
+
         }
     }
 
@@ -200,51 +203,53 @@ public class Enemy_Controller : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Explosion"))
+        if (other.gameObject.CompareTag("Explosion")) // if the enemy is hit by an explosion
         {
-            m_isGrounded = false;
-            m_enemyHealth = 1;
+            m_isGrounded = false; // set them to be no longer grounded
+            m_enemyHealth = 1; // set them to 1 health so they die on impact
         }
 
-        if (other.gameObject.CompareTag("Infected"))
+        if (other.gameObject.CompareTag("Infected")) // if the enemy touches an infection point
         {
-            m_isEnemyInfected = true;
+            m_isEnemyInfected = true; // set themselves to be infected
         }
+        
     }
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.CompareTag("Ground") && m_isGrounded == false)
+        if (col.gameObject.CompareTag("Ground") && m_isGrounded == false) // if the enemy touches the ground and isn't already grounded
         {
-            m_enemyHealth = 0;
+            m_enemyHealth = 0; // set the enemy to die on impact
         }
 
         
     }
 
-    IEnumerator CanAttack()
+    IEnumerator CanAttack() // attack function
     {
         if (m_isAttacking == false)
         {
-            m_isAttacking = true;
-            yield return new WaitForSeconds(0.1f);
-            if (!m_isRanged)
+            m_isAttacking = true; // set the enemmy to be attacking to prevent this coroutine from overlapping itself
+            yield return new WaitForSeconds(0.1f); // wait a short time so it's not instant
+            if (!m_isRanged) // if they are not a ranged type
             {
-                r_anim.SetTrigger("Attack");
-            } else
-            {
-                Projectile proj = Instantiate(m_projectile, m_eyePos.position, Quaternion.identity);
-                proj.GetComponent<Rigidbody>().AddForce(m_eyePos.forward * 200);
-                proj.m_enemy = true;
-                proj.m_damage = m_enemyDamage;
+                r_anim.SetTrigger("Attack"); // play attacking animation
             }
-            yield return new WaitForSeconds(m_attackTime);
+            else
+            {
+                Projectile proj = Instantiate(m_projectile, m_eyePos.position, Quaternion.identity); // create projectile at shot point
+                proj.GetComponent<Rigidbody>().AddForce(m_eyePos.forward * 200); // push the projectile forwards with rigidbody
+                proj.m_enemy = true; // set the projectile to be an enemy projectile
+                proj.m_damage = m_enemyDamage; // set the damage of the projectile to reflect the enemy damage
+            }
+            yield return new WaitForSeconds(m_attackTime); // wait until they can attack again
             m_isAttacking = false;
         }
-       
+
     }
 
-    void f_resetStun()
+    void f_resetStun() // reset the enemy stun state
     {
         m_isStunned = false;
         m_resetStun = false;
@@ -253,14 +258,16 @@ public class Enemy_Controller : MonoBehaviour
     //Kurtis Watson
     void f_resetSpeed()
     {
-        m_runSpeed = m_defaultRunSpeed;
+        m_runSpeed = m_defaultRunSpeed; // set run speed to default
     }
 
+    //Kurtis Watson
     void f_resetInfection()
     {
+        // reset the infection 
         m_previouslyInfected = true;
         m_isEnemyInfected = false;
         GetComponentInChildren<ParticleSystem>().Stop();
-        GetComponentInChildren<BoxCollider>().enabled = false;       
+        GetComponentInChildren<BoxCollider>().enabled = false;
     }
 }
