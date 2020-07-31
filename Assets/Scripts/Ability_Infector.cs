@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ability_Infector : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //Check if anything has entered the trigger.
     {
         if (other.gameObject.CompareTag("Enemy")) //Check if collided object is an enemy >
         {            

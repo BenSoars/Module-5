@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Ability_Melee : MonoBehaviour
 {
+    [Header("Script Properties")]
     private Animator m_animator;
     private bool m_isMelee;
 

@@ -1216,14 +1216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc2d210d5628c34cb394a6638732e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_totalKnives: 9
-  m_shotPoint: {fileID: 567909998898289762}
-  m_wall: {fileID: 8105937169651061196, guid: a61e8a30f90ffde45b284f96c1dfe150, type: 3}
-  m_storm: {fileID: 2084821073527653411, guid: 69f10fff7f1e53b489cc042a5eaf74b3, type: 3}
-  m_knife: {fileID: 3005016408550678764, guid: a42c2071c560a5e429b817b6c466b4e8, type: 3}
-  m_Tornado: {fileID: 3247021307327370051, guid: 95fedcde153b44b45bd7a91473f0ae11,
-    type: 3}
-  m_Infector: {fileID: 5813459701485193558, guid: 2f1a8e8830d7e42408df0bb637c3b3d3,
+  totalKnives: 9
+  shotPoint: {fileID: 567909998898289762}
+  wall: {fileID: 8105937169651061196, guid: a61e8a30f90ffde45b284f96c1dfe150, type: 3}
+  storm: {fileID: 2084821073527653411, guid: 69f10fff7f1e53b489cc042a5eaf74b3, type: 3}
+  knife: {fileID: 3005016408550678764, guid: a42c2071c560a5e429b817b6c466b4e8, type: 3}
+  tornado: {fileID: 3247021307327370051, guid: 95fedcde153b44b45bd7a91473f0ae11, type: 3}
+  infector: {fileID: 5813459701485193558, guid: 2f1a8e8830d7e42408df0bb637c3b3d3,
     type: 3}
 --- !u!114 &2584875211696430289
 MonoBehaviour:
@@ -1249,6 +1248,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   m_note: {fileID: 1033052027369876156, guid: c38ac8c3ae000e04dae3ee914d878c7e, type: 3}
+  m_spawnNote: 0
 --- !u!1 &8493438687375166391
 GameObject:
   m_ObjectHideFlags: 0
