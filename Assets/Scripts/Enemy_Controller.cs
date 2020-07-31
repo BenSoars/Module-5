@@ -51,7 +51,7 @@ public class Enemy_Controller : MonoBehaviour
     public Enemy_Damage m_hurtBox; // the enemy hurtbox
 
     //Kurtis Watson
-    private Prototype_Classes r_prototypeClasses;
+    private Prototype_Classes m_prototypeClasses;
 
     public GameObject m_whisp; 
     public bool m_isEnemyInfected;
@@ -69,7 +69,7 @@ public class Enemy_Controller : MonoBehaviour
         r_anim = gameObject.GetComponent<Animator>();
         r_player = GameObject.FindObjectOfType<Player_Controller>();
         r_waveSystem = FindObjectOfType<Wave_System>();
-        r_prototypeClasses = FindObjectOfType<Prototype_Classes>();
+        m_prototypeClasses = FindObjectOfType<Prototype_Classes>();
 
         m_defaultRunSpeed = m_runSpeed;// set the default run speed
         m_hurtBox.m_damage = m_enemyDamage; // set the hurtbox damage to represent the enemy damage
@@ -108,7 +108,7 @@ public class Enemy_Controller : MonoBehaviour
         if (m_enemyHealth <= 0)
         {
             //Kurtis Watson
-            r_prototypeClasses.m_currentFog = r_prototypeClasses.m_currentFog - r_waveSystem.m_fogMath;
+            m_prototypeClasses.currentFog = m_prototypeClasses.currentFog - r_waveSystem.fogMath;
 
             //Ben Soars
             int rando = UnityEngine.Random.Range(0, m_spawnChance); // generate random number
@@ -131,7 +131,7 @@ public class Enemy_Controller : MonoBehaviour
         if (Physics.Raycast(m_eyePos.position, m_eyePos.forward, out m_sightRaycast, Mathf.Infinity, layerMask)) // shoot out a raycast for hitscan
         {
             Debug.DrawRay(m_eyePos.position, m_eyePos.forward * m_sightRaycast.distance, Color.yellow); // draw line only viewable ineditor
-            if (m_sightRaycast.collider.gameObject.CompareTag("Player") && r_player.m_isPlayerInvisible == false) // if it can see the player 
+            if (m_sightRaycast.collider.gameObject.CompareTag("Player") && r_player.isPlayerInvisible == false) // if it can see the player 
             {
                 m_state = CurrentState.Attack; // set the enemy to be attacking
                 m_lastPosition = r_player.transform.position; // set the last position of the player

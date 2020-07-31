@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Kurtis Watson
 public class Ability_Pushback : MonoBehaviour
 {    
     [Header("Object Components")]
@@ -16,8 +17,6 @@ public class Ability_Pushback : MonoBehaviour
     public float upliftForce;
     public float knockbackForce;
     public float damageRadius;
-
-    
 
     public void Start()
     {

@@ -3,8 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Kurtis Watson
 public class Wave_System : MonoBehaviour
 {
+    [Header("Script References")]
+    private User_Interface r_userInterface;
+    private Prototype_Classes m_prototypeClasses;
+    private Notes_System r_notesSystem;
+
+    [Header("Wave Properties")]
+    [Space(2)]
+    public List<GameObject> wisps = new List<GameObject>();
+    public float fogMath;
+    public int intermissionTime;
+    private GameObject[] m_wispPoint;
+    private int m_random;
+    public bool newWave;
+    private bool m_timeMet;
+    private Text m_enemyCount;
+    
+
     //Ben Soars
     public List<GameObject> enemyTypes = new List<GameObject>(); // the enemy types
     public List<Transform> spawnPoints = new List<Transform>(); // the amount of enemies per wave
@@ -18,33 +36,11 @@ public class Wave_System : MonoBehaviour
     public bool m_startedWaves; // check for the start of the wave
 
     //Kurtis Watson
-
-    // component access
-    private Player_Controller r_playerController;
-    private User_Interface r_userInterface;
-    private Prototype_Classes r_prototypeClasses;
-    private Notes_System r_notesSystem;
-
-    public List<GameObject> m_wisps = new List<GameObject>();
-
-    private GameObject[] m_wispPoint;
-    private int m_random;
-    public int m_intermissionTime;
-
-    public bool m_newWave;
-    private bool m_timeMet;
-
-    private Text m_enemyCount;
-    public float m_fogMath;
-
-    //Kurtis Watson
     private void Start()
     {
-        // get access to the various components needed by this script
-        m_wispPoint = GameObject.FindGameObjectsWithTag("WispPoint");
-        r_playerController = FindObjectOfType<Player_Controller>();
+        m_wispPoint = GameObject.FindGameObjectsWithTag("WispPoint"); //Find all wisp points.
         r_userInterface = FindObjectOfType<User_Interface>();
-        r_prototypeClasses = FindObjectOfType<Prototype_Classes>();
+        m_prototypeClasses = FindObjectOfType<Prototype_Classes>();
         r_notesSystem = FindObjectOfType<Notes_System>();
         m_enemyCount = GameObject.Find("EnemyCount").GetComponent<Text>();
     }
@@ -54,7 +50,7 @@ public class Wave_System : MonoBehaviour
     {
         f_updateUI();
 
-        if (m_newWave == true)
+        if (newWave == true)
         {
             r_userInterface.f_waveTimer();
             StartCoroutine(f_spawnWisps()); // spawn wisps
@@ -64,24 +60,24 @@ public class Wave_System : MonoBehaviour
     //Kurtis Watson
     IEnumerator f_spawnWisps()
     {
-        m_newWave = false;
-        yield return new WaitForSeconds(m_intermissionTime);
+        newWave = false;
+        yield return new WaitForSeconds(intermissionTime); //Wait however long the intermission time is.
         m_startedWaves = true; //Update UI values.
         f_sortOutEnemys(); //Spawn enemies of different types.
         for (int k = 0; k < enemyArray.Count; k++)
         {
             for (int i = 0; i < enemyArray[k]; i++)
             {
-                m_random = Random.Range(0, 4);
-                GameObject spawned = Instantiate(m_wisps[k], m_wispPoint[m_random].transform.position, Quaternion.identity); //Spawn wisps at a random point.
+                m_random = Random.Range(0, 4);  //Generate random number for spawn location.
+                GameObject spawned = Instantiate(wisps[k], m_wispPoint[m_random].transform.position, Quaternion.identity); //Spawn wisps at a random point.
                 spawnedEnemies.Add(spawned); //Add enemy spawned to enemies spawned list.
             }
         }
         enemiesLeft = spawnedEnemies.Count; //Set the count for the enemies left.
-        r_prototypeClasses.m_fogStrength = 0.2f; //Fog strength.
-        r_prototypeClasses.m_currentFog = 0.2f; //Reset current fog.
-        r_prototypeClasses.m_stonePower[r_prototypeClasses.m_chosenBuff] -= enemiesLeft * 2; //Decrease the chosen enemy buff by two times the amount of enemies.
-        m_fogMath = r_prototypeClasses.m_fogStrength / enemiesLeft; //Calculate the amount of fog to decrease each enemy kill.
+        m_prototypeClasses.fogStrength = 0.2f; //Fog strength.
+        m_prototypeClasses.currentFog = 0.2f; //Reset current fog.
+        m_prototypeClasses.stonePower[m_prototypeClasses.chosenBuff] -= enemiesLeft * 2; //Decrease the chosen enemy buff by two times the amount of enemies.
+        fogMath = m_prototypeClasses.fogStrength / enemiesLeft; //Calculate the amount of fog to decrease each enemy kill.
         curRound += 1; //Increase current round by one.
        
         m_timeMet = false;
@@ -93,23 +89,22 @@ public class Wave_System : MonoBehaviour
         m_enemyCount.text = ("" + enemiesLeft); //Display enemies left on the runtime UI.
     }
 
-    // Update is called once per frame
-    //Ben Soars
+    //Kurtis Watson
     void FixedUpdate()
-    {       
-        
+    {              
         if (spawnedEnemies.Count <= 0 && enemiesLeft == 0 && m_timeMet == false)
         {
-            r_notesSystem.m_spawnNote = true;
+            r_notesSystem.spawnNote = true;
             m_startedWaves = false; //Begin the wave (required for a different script).
-            r_prototypeClasses.m_canSelect = true; //Allow the player to choose a new Starstone.
-            r_prototypeClasses.m_activeStone[r_prototypeClasses.m_classState] = false; //Disable the current stone so that it can be chosen again.
-            m_timeMet = true; // time has been met
+            m_prototypeClasses.canSelect = true; //Allow the player to choose a new Starstone.
+            m_prototypeClasses.activeStone[m_prototypeClasses.classState] = false; //Disable the current stone so that it can be chosen again.
+            m_timeMet = true; // Time has been met
             r_userInterface.f_waveTimer(); //Update the round time limit.
-            f_spawnWisps(); // spawn more wisps
+            f_spawnWisps(); //Spawn the next round of wisps.
         }
         else
         {
+            //Ben Soars
             // if there are enemies
             for (int i = 0; i < spawnedEnemies.Count; i++) //check the list of enemies that are spawned
             {

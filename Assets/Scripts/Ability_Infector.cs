@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Kurtis Watson
 public class Ability_Infector : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other) //Check if anything has entered the trigger.

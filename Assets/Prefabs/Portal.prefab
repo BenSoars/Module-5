@@ -151,5 +151,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b28b8703f2cfba4083d1e8b7fa5f785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_desiredLocation: {fileID: 1453544238474070399}
-  m_target: {fileID: 0}
+  desiredLocation: {fileID: 1453544238474070399}

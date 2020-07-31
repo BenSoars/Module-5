@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Kurtis Watson
 public class Wave_Trigger : MonoBehaviour
 {
-
-    private Wave_System r_waveSystem;
-    // Start is called before the first frame update
+    [Header("Script References")]
+    private Wave_System m_waveSystem;
 
     private void Start()
     {
-        r_waveSystem = FindObjectOfType<Wave_System>();
+        m_waveSystem = FindObjectOfType<Wave_System>();
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if(other.gameObject.layer == LayerMask.NameToLayer("Player")) //Detect if the trigger has been entered > 
         {
-            r_waveSystem.m_newWave = true;
-            Destroy(gameObject);
+            m_waveSystem.newWave = true; // > begin the wave.
+            Destroy(gameObject); //Remove the trigger after collision.
         }
     }
 }

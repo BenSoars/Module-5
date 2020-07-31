@@ -598,6 +598,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eef50ddff65f12469f9f79f09826ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wisps:
+  - {fileID: 42458450682264745, guid: 6befa5c3aa19d1842a12f708f5aab1c0, type: 3}
+  - {fileID: 4912677542973487342, guid: 49ceda97bbd165a459db2f8f4ef86096, type: 3}
+  - {fileID: 5187828249536963387, guid: cbaa0c4a0dbc4af47a943da25a3413d3, type: 3}
+  - {fileID: 21340656321066126, guid: ec6d49e52b2116b45bcf4e7192782c54, type: 3}
+  fogMath: 0
+  intermissionTime: 0
+  newWave: 0
   enemyTypes:
   - {fileID: 42458450682264745, guid: 4d4b05e08e0b0a6499519b925ddfa91b, type: 3}
   - {fileID: 8653534323981115242, guid: 30a515d93317d6e46a11e2c362aafc9d, type: 3}
@@ -643,14 +651,6 @@ MonoBehaviour:
   curRound: 0
   enemyArray: 
   m_startedWaves: 0
-  m_wisps:
-  - {fileID: 42458450682264745, guid: 6befa5c3aa19d1842a12f708f5aab1c0, type: 3}
-  - {fileID: 4912677542973487342, guid: 49ceda97bbd165a459db2f8f4ef86096, type: 3}
-  - {fileID: 5187828249536963387, guid: cbaa0c4a0dbc4af47a943da25a3413d3, type: 3}
-  - {fileID: 21340656321066126, guid: ec6d49e52b2116b45bcf4e7192782c54, type: 3}
-  m_intermissionTime: 5
-  m_newWave: 0
-  m_fogMath: 0
 --- !u!4 &170729075
 Transform:
   m_ObjectHideFlags: 0
@@ -779,7 +779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 227682978}
   m_Layer: 0
-  m_Name: NoteLocation_04
+  m_Name: NoteLocation_4
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -5556,7 +5556,7 @@ GameObject:
   m_Component:
   - component: {fileID: 248785366}
   m_Layer: 0
-  m_Name: NoteLocation_02
+  m_Name: NoteLocation_2
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -16316,7 +16316,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1382197844}
   m_Layer: 0
-  m_Name: NoteLocation_06
+  m_Name: NoteLocation_6
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -16946,7 +16946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1626169616}
   m_Layer: 0
-  m_Name: NoteLocation_07
+  m_Name: NoteLocation_7
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -16988,7 +16988,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1647686465}
   m_Layer: 0
-  m_Name: NoteLocation_01
+  m_Name: NoteLocation_1
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -17048,7 +17048,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1762843090}
   m_Layer: 0
-  m_Name: NoteLocation_08
+  m_Name: NoteLocation_8
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -17108,7 +17108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1798294513}
   m_Layer: 0
-  m_Name: NoteLocation_09
+  m_Name: NoteLocation_9
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -17260,7 +17260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1855128800}
   m_Layer: 0
-  m_Name: NoteLocation_05
+  m_Name: NoteLocation_5
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -17340,7 +17340,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1904568427}
   m_Layer: 0
-  m_Name: NoteLocation_03
+  m_Name: NoteLocation_3
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

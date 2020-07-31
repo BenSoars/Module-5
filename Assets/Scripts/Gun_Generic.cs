@@ -130,7 +130,7 @@ public class Gun_Generic : MonoBehaviour
     void Update()
     {
         m_bulletDamage = Random.Range(m_minBulletDamage, m_maxBulletDamage);  // generate random damage
-        if (m_player.m_isPlayerActive == true && m_player.m_isUsingLadder == false) // if the player is active and not on a ladder
+        if (m_player.m_isPlayerActive == true && m_player.isUsingLadder == false) // if the player is active and not on a ladder
             {
                 if (m_player.m_isSprinting == false) // if the player isn't sprintin
                 {

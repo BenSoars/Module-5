@@ -700,11 +700,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 992a9571642b1fd4c9d80630dd0b8f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_shotPoint: {fileID: 567909998898289762}
-  m_hitDamageText: {fileID: 716313641932058393, guid: 6d1c9af70de7b834eb4915020237bcca,
+  shotPoint: {fileID: 567909998898289762}
+  hitDamageText: {fileID: 716313641932058393, guid: 6d1c9af70de7b834eb4915020237bcca,
     type: 3}
-  m_laserDamage: 20
-  m_damageCoolDown: 0.2
+  laserDamage: 0
+  damageCoolDown: 0
 --- !u!1 &7591412882415260590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1133,28 +1133,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c815536ffe9cba14182702e624a4a77d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_camera: {fileID: 8493438687375166386}
-  m_rb: {fileID: 8493438686635508284}
+  camera: {fileID: 8493438687375166386}
+  rb: {fileID: 8493438686635508284}
+  playerHealth: 100
+  walkSpeed: 6
+  sprintSpeed: 9
+  maxSpeed: 15
+  jumpHeight: 9
+  extraGravity: 10
+  playerRotX: 0
+  isSprinting: 0
+  isCrouching: 0
+  isPlayerActive: 0
   m_shotPoint: {fileID: 8493438687375166386}
-  m_camRotSpeed: 3
-  m_camMinY: -60
-  m_camMaxY: 75
-  m_camSmoothSpeed: 50
-  m_walkSpeed: 6
-  m_sprintSpeed: 9
-  m_maxSpeed: 15
-  m_jumpHeight: 9
-  m_enemiesKilled: 0
-  m_playerHealth: 100
-  m_extraGravity: 10
-  m_playerRotX: 0
-  m_grounded: 0
-  m_canPlayerMove: 0
-  m_isLadder: 0
-  m_isUsingLadder: 0
-  m_topOfLadder: 0
-  m_isPlayerInvisible: 0
+  camRotSpeed: 3
+  camMinY: -60
+  camMaxY: 75
+  camSmoothSpeed: 50
+  enemiesKilled: 0
+  grounded: 0
+  canPlayerMove: 0
+  isLadder: 0
+  isUsingLadder: 0
+  topOfLadder: 0
+  isPlayerInvisible: 0
   desiredPos: {fileID: 0}
+  m_extraGravity: 10
   m_isSprinting: 0
   m_isCrouching: 0
   m_grenade: {fileID: 8560859715546231127, guid: 6905919010773084b993d524e74b96a0,
@@ -1192,18 +1196,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a938f5b129ad6f439dcd5a02a2a9fbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  r_prototypeWeapon: {fileID: 0}
-  m_shotPoint: {fileID: 567909998898289762}
-  m_pushBack: {fileID: 1851148228268403614, guid: af108dce561144945bf7271e1c761477,
-    type: 3}
-  m_classState: 0
-  m_stonePower: []
-  m_activeStone: 00000000
+  prototypeWeapon: {fileID: 6879699983474076598}
+  stonePower:
+  - 0
+  - 0
+  - 0
+  - 0
+  activeStone: 00000000
   newValue: 0
-  m_canSelect: 0
-  m_chosenBuff: 0
-  m_fogStrength: 0
-  m_currentFog: 0
+  canSelect: 0
+  classState: 0
+  chosenBuff: 0
+  shotPoint: {fileID: 567909998898289762}
+  stoneCharge: 0.5
+  fogStrength: 0
+  currentFog: 0
 --- !u!114 &1031861635661113235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1224,6 +1231,8 @@ MonoBehaviour:
   tornado: {fileID: 3247021307327370051, guid: 95fedcde153b44b45bd7a91473f0ae11, type: 3}
   infector: {fileID: 5813459701485193558, guid: 2f1a8e8830d7e42408df0bb637c3b3d3,
     type: 3}
+  pushBack: {fileID: 1851148228268403614, guid: af108dce561144945bf7271e1c761477,
+    type: 3}
 --- !u!114 &2584875211696430289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1236,19 +1245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1fff7c6652405d40bd232d70ffe00de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_locations:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_note: {fileID: 1033052027369876156, guid: c38ac8c3ae000e04dae3ee914d878c7e, type: 3}
-  m_spawnNote: 0
+  note: {fileID: 1033052027369876156, guid: c38ac8c3ae000e04dae3ee914d878c7e, type: 3}
+  spawnNote: 0
 --- !u!1 &8493438687375166391
 GameObject:
   m_ObjectHideFlags: 0

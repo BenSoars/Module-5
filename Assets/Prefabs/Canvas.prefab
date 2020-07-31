@@ -922,14 +922,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad051c3f0385c4a4db7e281514a20512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_currentTimeText: {fileID: 6088104185912925412}
-  m_currentHealth: {fileID: 5971268797762478982}
-  m_currentStoneCharge: {fileID: 1248981581612680890}
-  m_SS1: {fileID: 0}
-  m_SS2: {fileID: 0}
-  m_SS3: {fileID: 0}
-  m_SS4: {fileID: 0}
-  m_waveTimes: 3c0000005a0000007800000096000000b4000000d2000000000000000000000000000000000000000000000000000000000000000000000000000000
+  currentTimeText: {fileID: 6088104185912925412}
+  currentHealth: {fileID: 5971268797762478982}
+  currentStoneCharge: {fileID: 1248981581612680890}
+  SS1: {fileID: 0}
+  SS2: {fileID: 0}
+  SS3: {fileID: 0}
+  SS4: {fileID: 0}
+  waveTimes: 640000006e00000078000000820000008c00000096000000a0000000aa000000b4000000be000000c8000000d2000000dc000000
 --- !u!114 &753132884298884706
 MonoBehaviour:
   m_ObjectHideFlags: 0

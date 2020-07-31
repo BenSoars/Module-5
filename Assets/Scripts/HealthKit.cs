@@ -11,7 +11,7 @@ public class HealthKit : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player")) // if player walks into it
         {
-            other.GetComponent<Player_Controller>().m_playerHealth += m_healthValue; //add health to player
+            other.GetComponent<Player_Controller>().playerHealth += m_healthValue; //add health to player
             Destroy(gameObject); // destroy self so can't be picked up again
         }
     }

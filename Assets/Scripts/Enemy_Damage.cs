@@ -20,7 +20,7 @@ public class Enemy_Damage : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             r_player = other.gameObject.GetComponent<Player_Controller>(); // get player componenet
-            r_player.m_playerHealth -= m_damage * r_player.m_defenceValue; // take health away based on damage and defence
+            r_player.playerHealth -= m_damage * r_player.m_defenceValue; // take health away based on damage and defence
             m_hurtBox.enabled = false; // disable the hurtbox to prevent multiple hits per frames
         }
     }

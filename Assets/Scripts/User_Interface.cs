@@ -3,47 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Kurtis Watson
 public class User_Interface : MonoBehaviour
 {
-    //Kurtis Watson
-    public TMPro.TextMeshProUGUI m_currentTimeText;
-    public TMPro.TextMeshProUGUI m_currentHealth;
-    public TMPro.TextMeshProUGUI m_currentStoneCharge;
-
-    public TMPro.TextMeshPro m_SS1;
-    public TMPro.TextMeshPro m_SS2;
-    public TMPro.TextMeshPro m_SS3;
-    public TMPro.TextMeshPro m_SS4;
-
+    [Header("Script References")]
     private Wave_System r_waveSystem;
-    private Player_Controller r_playerController;
-    private Prototype_Classes r_prototypeClasses;
+    private Player_Controller m_playerController;
+    private Prototype_Classes m_prototypeClasses;
 
+    [Header("Text Mesh Pro UGUI")]
+    [Space(2)]
+    [Tooltip("Current time left before round end.")]
+    public TMPro.TextMeshProUGUI currentTimeText;
+    [Tooltip("Current player health.")]
+    public TMPro.TextMeshProUGUI currentHealth;
+    [Tooltip("Current Starstone charge.")]
+    public TMPro.TextMeshProUGUI currentStoneCharge;
+
+    [Header("Runtime Components")]
     private float m_targetTime;
     private int m_currentSecond;
     private int m_currentMinute;
 
-    public List<int> m_waveTimes = new List<int>();
+    [Header("In-game Individual Canvas")] //This is to display the starstone power in game.
+    public TMPro.TextMeshPro SS1;
+    public TMPro.TextMeshPro SS2;
+    public TMPro.TextMeshPro SS3;
+    public TMPro.TextMeshPro SS4;
+
+    public List<int> waveTimes = new List<int>();
 
     // Start is called before the first frame update
 
     private void Start()
     {
         r_waveSystem = FindObjectOfType<Wave_System>();
-        r_playerController = FindObjectOfType<Player_Controller>();
-        r_prototypeClasses = FindObjectOfType<Prototype_Classes>();
+        m_playerController = FindObjectOfType<Player_Controller>();
+        m_prototypeClasses = FindObjectOfType<Prototype_Classes>();
     }
     // Update is called once per frame
     void Update()
     {
-        m_currentHealth.text = "" + r_playerController.m_playerHealth;
+        currentHealth.text = "" + m_playerController.playerHealth;
 
-        m_currentStoneCharge.text = "" + r_prototypeClasses.m_stonePower[r_prototypeClasses.m_classState].ToString();
+        currentStoneCharge.text = "" + m_prototypeClasses.stonePower[m_prototypeClasses.classState].ToString();
 
-        m_SS1.text = r_prototypeClasses.m_stonePower[0].ToString("F0");
-        m_SS2.text = r_prototypeClasses.m_stonePower[1].ToString("F0");
-        m_SS3.text = r_prototypeClasses.m_stonePower[2].ToString("F0");
-        m_SS4.text = r_prototypeClasses.m_stonePower[3].ToString("F0");
+        SS1.text = m_prototypeClasses.stonePower[0].ToString("F0");
+        SS2.text = m_prototypeClasses.stonePower[1].ToString("F0");
+        SS3.text = m_prototypeClasses.stonePower[2].ToString("F0");
+        SS4.text = m_prototypeClasses.stonePower[3].ToString("F0");
 
         if (r_waveSystem.m_startedWaves == true)
         {
@@ -52,7 +60,7 @@ public class User_Interface : MonoBehaviour
 
             m_targetTime -= Time.deltaTime;
 
-            m_currentTimeText.text = "" + m_currentMinute.ToString("00") + ":" + m_currentSecond.ToString("00");
+            currentTimeText.text = "" + m_currentMinute.ToString("00") + ":" + m_currentSecond.ToString("00");
 
             if (m_targetTime <= 0)
             {
@@ -63,6 +71,6 @@ public class User_Interface : MonoBehaviour
 
     public void f_waveTimer()
     {
-        m_targetTime = m_waveTimes[r_waveSystem.curRound];
+        m_targetTime = waveTimes[r_waveSystem.curRound];
     }
 }

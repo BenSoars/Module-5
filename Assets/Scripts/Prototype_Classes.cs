@@ -3,60 +3,62 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+//Kurtis Watson
 public class Prototype_Classes : MonoBehaviour
 {
-    //Kurtis Watson
-    private Player_Controller r_playerController;
-    private Gun_Generic r_gunGeneric;
-    public Prototype_Weapon r_prototypeWeapon;
-    private Wave_System r_waveSystem;
+    [Header("Script References")]
+    [Space(2)]
+    private Player_Controller m_playerController;
+    private Gun_Generic m_gunGeneric;
+    public Prototype_Weapon prototypeWeapon;
+    private Wave_System m_waveSystem;
 
-    public Transform m_shotPoint;
-
-    public GameObject m_pushBack;
-
-    public int m_classState;
-
+    [Header("Default Stats Before Buffs")]
+    [Space(2)]
     private float m_defaultDefence;
     private float m_defaultHealth;
     private float m_defaultDamageCooldown;
-    private float m_defaultBulletDamage;
 
-    public float[] m_stonePower;
-    public bool[] m_activeStone;
-
+    [Header("Stone Mechanics")]
+    [Space(2)]
+    public float[] stonePower;
+    public bool[] activeStone;
     public bool newValue;
     private bool m_stonePowerSet;
-    public bool m_canSelect;
+    public bool canSelect;
+    public int classState;
+    public int chosenBuff;
+    [Tooltip("Position where the laser is shot from.")]
+    public Transform shotPoint;
+    public float stoneCharge = 0.5f;
 
-    public int m_chosenBuff;
-
-    public float m_fogStrength;
-    public float m_currentFog;
-
+    [Header("Environment")]
+    [Space(2)]
+    [Tooltip("Set the starting intensity of the fog at round start.")]
+    public float fogStrength;
+    public float currentFog;
 
     void Start()
     {
         if(m_stonePowerSet == false)
         {
             m_stonePowerSet = true;
-            for (int i = 0; i < m_activeStone.Length; i++)
+            for (int i = 0; i < activeStone.Length; i++)
             {
-                m_stonePower[i] = Random.Range(30, 80);
+                stonePower[i] = Random.Range(30, 80);
             }
         }
 
-        m_currentFog = m_fogStrength;
-        m_canSelect = true;
+        currentFog = fogStrength;
+        canSelect = true;
 
-        r_playerController = FindObjectOfType<Player_Controller>();
-        r_gunGeneric = FindObjectOfType<Gun_Generic>();
-        r_waveSystem = FindObjectOfType<Wave_System>();
+        m_playerController = FindObjectOfType<Player_Controller>();
+        m_gunGeneric = FindObjectOfType<Gun_Generic>();
+        m_waveSystem = FindObjectOfType<Wave_System>();
 
-        m_defaultDefence = r_playerController.m_defenceValue;
-        m_defaultHealth = r_playerController.m_playerHealth;
-        m_defaultDamageCooldown = r_prototypeWeapon.m_damageCoolDown;
-        m_defaultBulletDamage = r_gunGeneric.m_bulletDamage;
+        m_defaultDefence = m_playerController.m_defenceValue;
+        m_defaultHealth = m_playerController.playerHealth;
+        m_defaultDamageCooldown = prototypeWeapon.damageCoolDown;
     }
 
     void Update()
@@ -68,61 +70,60 @@ public class Prototype_Classes : MonoBehaviour
 
         if (Input.GetKeyDown("p"))
         {
-            m_classState = 0;
+            classState = 0;
         }
     }
 
     void f_defaultSettings() //Reset to 0
     {
-        for (int i = 0; i < m_activeStone.Length; i++)
+        for (int i = 0; i < activeStone.Length; i++)
         {
-            m_activeStone[m_classState] = false;
+            activeStone[classState] = false;
         }
-        m_currentFog = m_fogStrength;
+        currentFog = fogStrength;
 
         RenderSettings.fog = false;
-        r_playerController.m_defenceValue = m_defaultDefence;
-        r_prototypeWeapon.m_damageCoolDown = m_defaultDamageCooldown;
-        r_gunGeneric.m_bulletDamage = m_defaultBulletDamage;
+        m_playerController.m_defenceValue = m_defaultDefence;
+        prototypeWeapon.damageCoolDown = m_defaultDamageCooldown;
     }
 
     void f_startstoneSelect()
     {
         RaycastHit m_stoneSelect;
 
-        if (Physics.Raycast(m_shotPoint.position, m_shotPoint.forward, out m_stoneSelect, 3f, 1 << 11) && Input.GetKeyDown("f") && m_canSelect == true)
+        if (Physics.Raycast(shotPoint.position, shotPoint.forward, out m_stoneSelect, 3f, 1 << 11) && Input.GetKeyDown("f") && canSelect == true)
         {
-            r_waveSystem.m_newWave = true;
-            m_canSelect = false;
+            m_waveSystem.newWave = true;
+            canSelect = false;
             f_defaultSettings();
             switch (m_stoneSelect.collider.gameObject.name)
             {
                 case ("Starstone 1"): //Yellow
-                    m_classState = 0;
-                    r_playerController.m_defenceValue = 0.75f;
+                    classState = 0;
+                    m_playerController.m_defenceValue = 0.75f;
                     break;
                 case ("Starstone 2"): //White
-                    m_classState = 1;
-                    r_playerController.m_playerHealth = m_defaultHealth * 1.3f;
+                    classState = 1;
+                    m_playerController.playerHealth = m_defaultHealth * 1.3f;
                     break;
                 case ("Starstone 3"): //Pink
-                    m_classState = 2;
+                    classState = 2;
                     break;
                 case ("Starstone 4"): //Blue                   
-                    m_classState = 3;
-                    r_prototypeWeapon.m_damageCoolDown = m_defaultDamageCooldown / 2;
+                    classState = 3;
+                    prototypeWeapon.damageCoolDown = m_defaultDamageCooldown / 2;
                     break;                 
             }            
 
-            m_activeStone[m_classState] = true;
+            activeStone[classState] = true;
 
             float max = int.MinValue;
-            for (int i = 0; i < m_activeStone.Length; i++)
+            for (int i = 0; i < activeStone.Length; i++)
             {                
-                if (m_activeStone[i] == false && m_stonePower[i] > max)
+                if (activeStone[i] == false && stonePower[i] > max)
                 {
-                    max = m_stonePower[i];
-                    m_chosenBuff = i;
+                    max = stonePower[i];
+                    chosenBuff = i;
                 }
             }
         }         
@@ -130,15 +131,14 @@ public class Prototype_Classes : MonoBehaviour
 
     void f_enemyBuff()
     {
-        switch (m_chosenBuff)
+        switch (chosenBuff)
         {
             case 0:
-                
                 break;
             case 1:
-                r_gunGeneric.m_bulletDamage = r_gunGeneric.m_bulletDamage * 0.75f;
-                m_fogStrength = Mathf.Lerp(m_fogStrength, m_currentFog, Time.deltaTime * 2); //Smooth fog adjustment.
-                RenderSettings.fogDensity = m_fogStrength;
+                m_gunGeneric.m_bulletDamage = m_gunGeneric.m_bulletDamage * 0.75f;
+                fogStrength = Mathf.Lerp(fogStrength, currentFog, Time.deltaTime * 2); //Smooth fog adjustment.
+                RenderSettings.fogDensity = fogStrength;
                 RenderSettings.fog = true;
                 break;
             case 2:
@@ -152,63 +152,62 @@ public class Prototype_Classes : MonoBehaviour
     {
         if (Input.GetKeyDown("q"))
         {
-            switch (m_classState)
+            switch (classState)
             {
                 case 0:
-                    r_playerController.m_isPlayerInvisible = true;
-                    Invoke("f_resetInvisible", 10);
+                    //Code invisibility.
                     break;
                 case 1:
-                    if (m_stonePower[1] >= 15)
+                    if (stonePower[1] >= 15)  //Check if the player has enough starstone energy to use the ability.
                     {
-                        FindObjectOfType<Ability_Handler>().f_spawnTornado();
-                        m_stonePower[1] -= 15;
+                        FindObjectOfType<Ability_Handler>().f_spawnTornado(); //Spawn a tornado.
+                        stonePower[1] -= 15;
                     }
                     break;
                 case 2:
-                    if (m_stonePower[2] >= 15)
+                    if (stonePower[2] >= 15)
                     {
-                        Instantiate(m_pushBack, m_shotPoint.transform.position, m_shotPoint.rotation); // 'm_shotPoint.rotation' makes the position of firing relative to where the player is looking based on camera rotation.
-                        m_stonePower[2] -= 15;
+                        FindObjectOfType<Ability_Handler>().f_spawnPushback(); //Spawn a pushback object to throw the player away.
+                        stonePower[2] -= 15;
                     }
-                        break;
+                    break;
                 case 3:
-                    //Ring of blue fire that enemies can't come into. -10% power.
+                    //Spawn health pad.
                     break;
             }
         }
 
         if (Input.GetKeyDown("v"))
         {
-            switch (m_classState)
+            switch (classState)
             {
                 case 0:
-                    if (m_stonePower[0] >= 20)
+                    if (stonePower[0] >= 20) //Detects if the raycast has hit the ground, if so it allows the player to place.
                     {
-                        FindObjectOfType<Ability_Handler>().f_spawnWall();
-                        m_stonePower[0] -= 20;
+                        FindObjectOfType<Ability_Handler>().f_spawnWall(); //Begin Coroutine to execute ability.
+                        stonePower[0] -= 20; //Decrease starstone power as it has been 'drained'.
                     }
                     break;
                 case 1:
-                    if (m_stonePower[1] >= 25)
+                    if (stonePower[1] >= 25)
                     {
-                        FindObjectOfType<Ability_Handler>().f_spawnStorm();
-                        m_stonePower[1] -= 25;
+                        FindObjectOfType<Ability_Handler>().f_spawnStorm(); //Spawn a storm.
+                        stonePower[1] -= 25;
                     }
                     break;
                 case 2:
-                    if (m_stonePower[2] >= 15)
+                    if (stonePower[2] >= 15)
                     {
-                        FindObjectOfType<Ability_Handler>().f_spawnKnives();
-                        m_stonePower[2] -= 15;
+                        FindObjectOfType<Ability_Handler>().f_spawnKnives(); //Throw a sequence of knives in direction of where the player is looking.
+                        stonePower[2] -= 15;
                     }
                     //Knives.
                     break;
                 case 3:
-                    if (m_stonePower[3] >= 25)
+                    if (stonePower[3] >= 25)
                     {
-                        FindObjectOfType<Ability_Handler>().f_spawnInfector();
-                        m_stonePower[3] -= 25;
+                        FindObjectOfType<Ability_Handler>().f_spawnInfector(); //Spawn the infector.
+                        stonePower[3] -= 25;
                     }
                     break;
             }           
@@ -217,21 +216,21 @@ public class Prototype_Classes : MonoBehaviour
 
     void f_chargeStones()
     {
-        if (m_canSelect == false)
+        if (canSelect == false)
         {
-            for (int i = 0; i < m_activeStone.Length; i++)
+            for (int i = 0; i < activeStone.Length; i++)
             {
-                if (m_activeStone[i] != true && m_stonePower[i] < 100)
+                if (activeStone[i] != true && stonePower[i] < 100)
                 {
-                    m_stonePower[i] += 0.002f;
+                    stonePower[i] += stoneCharge * Time.deltaTime;
                 }
-                //Debug.Log("Star stone: " + i + "    Power: " + m_stonePower[i]);
+                //Debug.Log("Star stone: " + i + "    Power: " + stonePower[i]);
             }
         }
     }
 
     void f_resetInvisible()
     {
-        r_playerController.m_isPlayerInvisible = false;
+        m_playerController.isPlayerInvisible = false;
     }
 }

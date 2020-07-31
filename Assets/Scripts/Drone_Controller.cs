@@ -2,37 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Kurtis Watson
 public class Drone_Controller : MonoBehaviour
 {
-    //Kurtis Watson
-    public Transform m_camera;
-    public Rigidbody m_rb;
 
-    public float m_camRotSpeed;
-    public float m_camMinY;
-    public float m_camMaxY;
-    public float m_camSmoothSpeed;
+    [Header("Camera Components")]
+    public Transform camera;
+    public Rigidbody rb;
 
-    public float m_flySpeed;
-    public float m_maxSpeed;
-    public float m_verticalSpeed;
+    [Header("Camera Movement Properties")]
+    [Space(2)]
+    [Tooltip("Set how fast the camera rotates.")]
+    public float camRotSpeed;
+    [Tooltip("Set how low the player can look before being stopped.")]
+    public float camMinY;
+    [Tooltip("Set how high the player can look before being stopped.")]
+    public float camMaxY;
+    [Tooltip("Set how smooth the camera moves (the higher the faster the camera movement).")]
+    public float camSmoothSpeed;
+    [Tooltip("Set how fast the drone moves around in general.")]
+    public float flySpeed;
+    [Tooltip("Set the max speed of the drone.")]
+    public float maxSpeed;
+    [Tooltip("Set how fast the drone moves up and down.")]
+    public float verticalSpeed;
 
-    float m_playerRotX;
-    float m_camRotY;
-    Vector3 m_directionIntentX;
-    Vector3 m_directionIntentY;
+    float playerRotX;
+    float camRotY;
+    Vector3 directionIntentX;
+    Vector3 directionIntentY;
 
-    private Player_Controller r_playerContoller;
+    private Player_Controller m_playerController;
 
     private void Start()
     {
-        r_playerContoller = GameObject.FindObjectOfType<Player_Controller>();
+        m_playerController = GameObject.FindObjectOfType<Player_Controller>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (r_playerContoller.m_isPlayerActive == false)
+        if (m_playerController.m_isPlayerActive == false)
         {
             f_lookAround();
             f_moveAround();
@@ -40,7 +50,7 @@ public class Drone_Controller : MonoBehaviour
 
         if (!Input.anyKey)
         {
-            m_rb.velocity = Vector3.zero;
+            rb.velocity = Vector3.zero;
         }
     }
 
@@ -49,40 +59,39 @@ public class Drone_Controller : MonoBehaviour
         Cursor.visible = false; //Remove cursor from the screen.
         Cursor.lockState = CursorLockMode.Locked; //Locks the cursor to the screen to prevent leaving the window.
 
-        m_playerRotX += Input.GetAxis("Mouse X") * m_camRotSpeed; //Rotates player FPS view along X axis based on mouse movement.
-        m_camRotY += Input.GetAxis("Mouse Y") * m_camRotSpeed; //Rotates the camera in Y axis so that the player object doesn't rotate upwards.
+        playerRotX += Input.GetAxis("Mouse X") * camRotSpeed; //Rotates player FPS view along X axis based on mouse movement.
+        camRotY += Input.GetAxis("Mouse Y") * camRotSpeed; //Rotates the camera in Y axis so that the player object doesn't rotate upwards.
 
-        m_camRotY = Mathf.Clamp(m_camRotY, m_camMinY, m_camMaxY); //Limit how far on the Y axis the player can look.
+        camRotY = Mathf.Clamp(camRotY, camMinY, camMaxY); //Limit how far on the Y axis the player can look.
 
-        Quaternion m_camTargetRotation = Quaternion.Euler(-m_camRotY, 0, 0); 
-        Quaternion m_targetRotation = Quaternion.Euler(0, m_playerRotX, 0);
+        Quaternion m_camTargetRotation = Quaternion.Euler(-camRotY, 0, 0);
+        Quaternion m_targetRotation = Quaternion.Euler(0, playerRotX, 0);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, m_targetRotation, Time.deltaTime * m_camSmoothSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, m_targetRotation, Time.deltaTime * camSmoothSpeed);
 
-        m_camera.localRotation = Quaternion.Lerp(m_camera.localRotation, m_camTargetRotation, Time.deltaTime * m_camSmoothSpeed);
+        camera.localRotation = Quaternion.Lerp(camera.localRotation, m_camTargetRotation, Time.deltaTime * camSmoothSpeed);
     }
 
     void f_moveAround()
     {
-        m_directionIntentX = m_camera.right;
-        m_directionIntentX.y = 0;
-        //Normalize makes the numbers more 'usable' for the engine.
-        m_directionIntentX.Normalize();
+        directionIntentX = camera.right;
+        directionIntentX.y = 0;       
+        directionIntentX.Normalize(); //Normalize makes the numbers more 'usable' for the engine.
 
-        m_directionIntentY = m_camera.forward;
-        m_directionIntentY.y = 0;
-        m_directionIntentY.Normalize();
+        directionIntentY = camera.forward;
+        directionIntentY.y = 0;
+        directionIntentY.Normalize();
 
-        m_rb.velocity = m_directionIntentY * Input.GetAxis("Vertical") * m_flySpeed + m_directionIntentX * Input.GetAxis("Horizontal") * m_flySpeed + Vector3.up * m_rb.velocity.y;
-        m_rb.velocity = Vector3.ClampMagnitude(m_rb.velocity, m_maxSpeed);
+        rb.velocity = directionIntentY * Input.GetAxis("Vertical") * flySpeed + directionIntentX * Input.GetAxis("Horizontal") * flySpeed + Vector3.up * rb.velocity.y;
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
 
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftControl)) //Lower the drone.
         {
-            transform.Translate(Vector3.down * (m_verticalSpeed / 100));
+            transform.Translate(Vector3.down * (verticalSpeed / 100));
         }
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space)) //Higher the drone.
         {
-            transform.Translate(Vector3.up * (m_verticalSpeed / 100));
+            transform.Translate(Vector3.up * (verticalSpeed / 100));
         }
     }  
 }
