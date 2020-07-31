@@ -12,10 +12,13 @@ public class Ability_Pushback : MonoBehaviour
 
     [Header("Ability Properties")]
     [Space(2)]
-    [Tooltip("YES")]
+    [Tooltip("Set how fast the ability moves forward from the player.")]
     public float abilitySpeed; //Values to change the strength of the pushback.
+    [Tooltip("Set how high the player is lifted off the ground.")]
     public float upliftForce;
+    [Tooltip("Set how much the player is knocked back on trigger enter.")]
     public float knockbackForce;
+    [Tooltip("Set the radius at which the object effects enemies.")]
     public float damageRadius;
 
     public void Start()
