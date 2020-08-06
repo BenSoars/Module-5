@@ -7,7 +7,7 @@ public class Ability_Handler : MonoBehaviour
 {
     [Header("Script References")]
     [Space(2)]
-    private Player_Controller m_playerController;
+    private Player_Controller m_playerController; //Reference to player controller.
 
     [Header("Ability Properties")]
     [Space(2)]
@@ -18,11 +18,17 @@ public class Ability_Handler : MonoBehaviour
 
     [Header("Ability Objects")]
     [Space(2)]
+    [Tooltip("The obejct that is spawned when the wall ability is used.")]
     public GameObject wall; //Ability Game Objects.
+    [Tooltip("The object that is spawned when the wall ability is activated.")]
     public GameObject storm;
+    [Tooltip("The object that is spawned when the knife throwing ability is activated.")]
     public GameObject knife;
+    [Tooltip("The object that is spawned when the tornado object is used.")]
     public GameObject tornado;
+    [Tooltip("The object that is spawned when the infector is used.")]
     public GameObject infector;
+    [Tooltip("The object that is spawned when the pushback ability is used.")]
     public GameObject pushBack;
 
     private void Start()

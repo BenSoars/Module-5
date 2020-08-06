@@ -6,12 +6,12 @@ using UnityEngine;
 public class Orb_Controller : MonoBehaviour
 {
     [Header("Script References")]
-    private Prototype_Classes m_prototypeClasses;
+    private Prototype_Classes m_prototypeClasses; //Reference prototype classes script.
 
     [Header("Materials")]
     [Space(2)]
     [Tooltip("Store the different materials the orb can change to based on the chosen enemy buff.")]
-    public List<Material> materials = new List<Material>();
+    public List<Material> materials = new List<Material>(); //List of materials used.
 
     private void Start()
     {

@@ -15,48 +15,61 @@ public class Player_Controller : MonoBehaviour
     public Transform camera;
     public Rigidbody rb;
     [Tooltip("Set the players max health.")]
-    public float playerHealth;
+    public float playerHealth; //Player health.
     [Tooltip("Set the players walk speed.")]
-    public float walkSpeed;
+    public float walkSpeed; //Walk speed.
     [Tooltip("Set the players sprint speed.")]
-    public float sprintSpeed;
+    public float sprintSpeed; //Run speed.
     [Tooltip("Set the max speed of the player.")]
-    public float maxSpeed;
+    public float maxSpeed; //Max run speed.
     [Tooltip("Set how high the player can jump.")]
-    public float jumpHeight;
+    public float jumpHeight; //How high the player can jump.
     [Tooltip("Set the level of gravity in the game after player jumps.")]
-    public float extraGravity;
-    public float playerRotX;
-    public bool isSprinting;
-    public bool isCrouching;
-    public bool isPlayerActive;
-    public Transform m_shotPoint;
-    private Animator m_animator;
-    private float m_speed;
+    public float extraGravity; //How much gravity is applied when the player is in the air.
+    [Tooltip("Player rotation along X axis.")]
+    public float playerRotX; //Player object rotation.
+    [Tooltip("Check for if the player is sprinting.")]
+    public bool isSprinting; //True/false is the player sprinting.
+    [Tooltip("Check for if the player is crouching.")]
+    public bool isCrouching;  //True/false is the player crouching.
+    [Tooltip("Check to see if the player is able to move.")]
+    public bool isPlayerActive; //True/false is the player able to move.
+    [Tooltip("Position where the bullets are shot from.")]
+    public Transform m_shotPoint; //Bullet shotpoint.
+    private Animator m_animator; //Reference animator in game object.
+    private float m_speed; //Set the speed.
 
     [Header("Camera Rotation Properties")]
     [Space(2)]
-    public float camRotSpeed;
+    [Tooltip("How fast the camera looks around.")]
+    public float camRotSpeed; //How fast the camera looks around.
     [Tooltip("Set the maximum Y look rotation.")]
-    public float camMinY;
+    public float camMinY; //How low the camera can look before it stops.
     [Tooltip("Set the maximum X look rotation.")]
-    public float camMaxY;
+    public float camMaxY; //How high the camera can look before it stops.
     [Tooltip("Set how smoother the camera is (the higher the faster the player looks).")]
-    public float camSmoothSpeed;
+    public float camSmoothSpeed; //How smooth the camera around.
     private float m_camRotY;
-    private Vector3 m_directionIntentX;
-    private Vector3 m_directionIntentY;
-    public int enemiesKilled;
+    private Vector3 m_directionIntentX; //Direction intended to look towards on X axis.
+    private Vector3 m_directionIntentY; //Direction intended to look towards on Y axis.
+    [Tooltip("Enemies killed during current round.")]
+    public int enemiesKilled; //Enemies kill sum per round.
 
     [Header("Ladder Properties")]
     [Space(2)]
-    public bool grounded;
-    public bool canPlayerMove;
+    [Tooltip("Check for if the player is on the ground.")]
+    public bool grounded; //Check if the player is grounded.
+    [Tooltip("Check if the player can move around.")]
+    public bool canPlayerMove; //Can player move.
+    [Tooltip("Check if the player is looking at a ladder.")]
     public bool isLadder;
+    [Tooltip("Check if the player is on the ladder.")]
     public bool isUsingLadder;
-    public bool topOfLadder;
+    [Tooltip("Check for if the player is at the top of the ladder.")]
+    public bool topOfLadder; //Stopping point for ladder.
     public bool isPlayerInvisible;
-    public Transform desiredPos;
+    [Tooltip("Set position to climb from on ladder.")]
+    public Transform desiredPos; //Teleport location for ladder mechanic.
 
     private Ability_Melee m_abilityMelee;
 

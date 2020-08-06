@@ -10,16 +10,19 @@ public class Prototype_Weapon : MonoBehaviour
 {
     [Header("Referenced Scripts")]
     [Space(2)]
-    private Player_Controller m_playerController;
+    private Player_Controller m_playerController; //References the required scripts.
     private Prototype_Classes m_prototypeClasses;
     private Enemy_Controller m_enemyHit;
 
     [Header("Weapon Mechanics")]
     [Space(2)]
-    private LineRenderer m_lr;
+    private LineRenderer m_lr; //Access the line renderer component.
+    [Tooltip("Position of where laser is shot from.")]
     public Transform shotPoint;
+    [Tooltip("Hit text that appears when the enemy is hit.")]
     public GameObject hitDamageText;
     private float laserDamage;
+    [Tooltip("Set how long between laser hits.")]
     public float damageCoolDown;
     private float m_currentDamageCoolDown;
 

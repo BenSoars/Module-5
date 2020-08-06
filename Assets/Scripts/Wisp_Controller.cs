@@ -7,12 +7,12 @@ using UnityEngine.AI;
 public class Wisp_Controller : MonoBehaviour
 {
     [Header("Wisp Components")]
-    private NavMeshAgent m_navAgent;
-    private Wave_System m_waveSystem;
-    private GameObject[] wispPoint;
-    public Transform m_desiredLocation;
-    public bool m_enemySpawn;
-    public int m_type; // the enemy type it will spawn
+    private NavMeshAgent m_navAgent; //Reference navmesh used in the game.
+    private Wave_System m_waveSystem; //Reference required script.
+    private GameObject[] wispPoint; //Spawn points for wisps.
+    public Transform m_desiredLocation;  //Desired destination for the wisps.
+    public bool m_enemySpawn; //Bool to check if the wisp spawn from the generator or enemy.
+    public int m_type; //The type of enemy to spawn.
 
     // Start is called before the first frame update
     void Start()

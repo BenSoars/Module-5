@@ -8,25 +8,31 @@ public class Prototype_Classes : MonoBehaviour
 {
     [Header("Script References")]
     [Space(2)]
-    private Player_Controller m_playerController;
+    private Player_Controller m_playerController; //Reference player controller.
     private Gun_Generic m_gunGeneric;
+    [Tooltip("References the prototype weapon attached to player.")]
     public Prototype_Weapon prototypeWeapon;
     private Wave_System m_waveSystem;
 
     [Header("Default Stats Before Buffs")]
     [Space(2)]
-    private float m_defaultDefence;
+    private float m_defaultDefence; //This section grabs all default values before they are altered.
     private float m_defaultHealth;
     private float m_defaultDamageCooldown;
 
     [Header("Stone Mechanics")]
     [Space(2)]
+    [Tooltip("Array of all the stones current power.")]
     public float[] stonePower;
+    [Tooltip("List that stores the current active stones.")]
     public bool[] activeStone;
     public bool newValue;
     private bool m_stonePowerSet;
+    [Tooltip("Check for if the player can select a Starstone or not.")]
     public bool canSelect;
-    public int classState;
+    [Tooltip("Current class state (used for prototype classes).")]
+    public int classState; //Current weapon state used for switch case.
+    [Tooltip("ID stored of the enemies chosen buff.")]
     public int chosenBuff;
     [Tooltip("Position where the laser is shot from.")]
     public Transform shotPoint;

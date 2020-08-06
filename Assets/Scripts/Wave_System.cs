@@ -6,7 +6,8 @@ using UnityEngine.UI;
 //Kurtis Watson
 public class Wave_System : MonoBehaviour
 {
-    [Header("Script References")]
+    //Kurtis Watson
+    [Header("Script References")] //Required script references.
     private User_Interface r_userInterface;
     private Prototype_Classes m_prototypeClasses;
     private Notes_System r_notesSystem; 
@@ -14,14 +15,14 @@ public class Wave_System : MonoBehaviour
     [Header("Wave Properties")]
     [Space(2)]
     public List<GameObject> wisps = new List<GameObject>();
-    public float fogMath; 
-    public int intermissionTime;
-    private GameObject[] m_wispPoint;
-    private int m_random;
-    public bool newWave;
+    public float fogMath; //Used to work out how much fog to decrease by based on enemies.
+    public int intermissionTime; //Intermission time value.
+    private GameObject[] m_wispPoint; //Spawn points.
+    private int m_random; //Used to randomly choose where the enemy wisps should move towards.
+    public bool newWave; //Check for new wave.
     private bool m_timeMet;
-    private Text m_enemyCount;
-    
+    private Text m_enemyCount; //Displayed on screen.
+
 
     //Ben Soars
     public List<GameObject> enemyTypes = new List<GameObject>(); // the enemy types
