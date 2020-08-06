@@ -11,16 +11,24 @@ public class Gun_Generic : MonoBehaviour
     // Ben Soars
     [Header("Weapon Ammo")]
     [Space(2)]
+
+    [Tooltip("Name of the Weapon, used for Specific Ammo Types.")]
     public string m_name = "GUN";
+    [Tooltip("The Maximum Ammo the weapon can hold.")]
     public int m_maxAmmo = 6; // the maximum ammo
+    [Tooltip("The Current Amount of Ammo, will depleat as the gun is fired.")]
     public int m_currentAmmo = 6; // the current ammo
+    [Tooltip("The amount of ammo per shot")]
     public int m_ammoPerShot = 1; // how much ammo shooting will consume
 
     [Space(2)]
     [Header("Weapon Accuracy")]
     [Space(2)]
+    [Tooltip("Used for making the gun accurate, and bypassing the random accuracy.")]
     public bool m_isAccurate = true; // if the gun is accurate or not
+    [Tooltip("The minimum ranges for gun accuracy.")]
     public List<float> m_accuracyMinRange = new List<float>(); // min range for accuracy
+    [Tooltip("The maximum ranges for gun accuracy.")]
     public List<float> m_accuracyMaxRange = new List<float>(); // max range for accuracy
     private List<float> m_accuracyGenerated = new List<float>(); // the generated accuracy
     private Vector3 m_newAccuracy;
@@ -28,6 +36,7 @@ public class Gun_Generic : MonoBehaviour
     [Space(2)]
     [Header("Weapon Aim Sights")]
     [Space(2)]
+    [Tooltip("Used to enable the ability to aim down sights, doing so automatically makes the gun inaccurate until aimed down sights.")]
     public bool m_canAim = false;  // allows the weapon to aim down sights
     private bool m_isAiming = false; // if the weapon is currently being aimed
     public Camera m_playerCam; // the player camera, allows for the changing of FOV for aiming
@@ -36,7 +45,9 @@ public class Gun_Generic : MonoBehaviour
     [Space(2)]
     [Header("Weapon Other Stats")]
     [Space(2)]
+    [Tooltip("The force that will be applied to the physical projectile (if there is a physical projectile).")]
     public float m_shotForce = 100; // how much force the bullet will be shot for, it hitscan leave blank
+    [Tooltip("The damage of the bullet.")]
     public float m_bulletDamage; // damage of the shot
     public int m_minBulletDamage; // the minimum damage for the bullet
     public int m_maxBulletDamage; // the macimum damage for the bullet
@@ -44,7 +55,9 @@ public class Gun_Generic : MonoBehaviour
     [Space(2)]
     [Header("Shot Type")]
     [Space(2)]
+    [Tooltip("The physical projectile, if you want the gun to shoot a hitscan leave this blank.")]
     public Rigidbody m_physicalBullet; // leave this blank if the gun is hitscan
+    [Tooltip("The point at which the bullet will shoot from.")]
     public Transform m_shotPoint; // the point where the bullet is shot from
     private Rigidbody m_shotBullet;  // the bullet that's physical
 
@@ -65,7 +78,7 @@ public class Gun_Generic : MonoBehaviour
 
     void Start()
     {
-        m_ammoCount = GameObject.Find("AmmoCount").GetComponent<Text>();
+        m_ammoCount = GameObject.Find("AmmoCount").GetComponent<Text>(); // find the Ui emelemt
         m_player = GameObject.FindObjectOfType<Player_Controller>();
       
 

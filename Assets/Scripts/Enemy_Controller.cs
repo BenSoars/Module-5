@@ -10,17 +10,24 @@ public class Enemy_Controller : MonoBehaviour
     // Ben Soars
     private NavMeshAgent m_navAgent;
 
+    [Tooltip("Enemy movement speed, used when the enemy is wandering around")]
     public float m_moveSpeed = 2;// the default movement speed
+    [Tooltip("Enemy running speed, used when the enemy spots the player")]
     public float m_runSpeed = 4; // the running speed, used when it spots the player
+    [Tooltip("The enemy's current health")]
     public float m_enemyHealth = 3; // the enemy health
+    [Tooltip("The amount of damage they do per attack")]
     public float m_enemyDamage = 5; // the damage the enemy does to the player
+    [Tooltip("Time until they can attack again")]
     public float m_attackTime = 2; //the time inbetween attacks
     public int m_spawnChance = 3;  // chance for it to spawn an item on death
     public bool m_isStunned; // is stunend
     private bool m_resetStun; // reset the stun
     private bool m_isAttacking; // used to tell if the enemy is currently attacking
 
+    [Tooltip("bool for if they're a ranged type")]
     public bool m_isRanged = false; // if the enemy is a ranged type
+    [Tooltip("The projectile the enemy fires, leave blank if they don't fire anyhting")]
     public Projectile m_projectile; // the projectile they fire
 
     // access to other componenets
