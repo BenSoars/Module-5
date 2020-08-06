@@ -9,12 +9,12 @@ public class Wave_System : MonoBehaviour
     [Header("Script References")]
     private User_Interface r_userInterface;
     private Prototype_Classes m_prototypeClasses;
-    private Notes_System r_notesSystem;
+    private Notes_System r_notesSystem; 
 
     [Header("Wave Properties")]
     [Space(2)]
     public List<GameObject> wisps = new List<GameObject>();
-    public float fogMath;
+    public float fogMath; 
     public int intermissionTime;
     private GameObject[] m_wispPoint;
     private int m_random;

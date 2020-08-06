@@ -67,9 +67,9 @@ public class Drone_Controller : MonoBehaviour
         Quaternion m_camTargetRotation = Quaternion.Euler(-camRotY, 0, 0);
         Quaternion m_targetRotation = Quaternion.Euler(0, playerRotX, 0);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, m_targetRotation, Time.deltaTime * camSmoothSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, m_targetRotation, Time.deltaTime * camSmoothSpeed); //Drone rotation.
 
-        camera.localRotation = Quaternion.Lerp(camera.localRotation, m_camTargetRotation, Time.deltaTime * camSmoothSpeed);
+        camera.localRotation = Quaternion.Lerp(camera.localRotation, m_camTargetRotation, Time.deltaTime * camSmoothSpeed); //Camera rotation.
     }
 
     void f_moveAround()
@@ -82,16 +82,16 @@ public class Drone_Controller : MonoBehaviour
         directionIntentY.y = 0;
         directionIntentY.Normalize();
 
-        rb.velocity = directionIntentY * Input.GetAxis("Vertical") * flySpeed + directionIntentX * Input.GetAxis("Horizontal") * flySpeed + Vector3.up * rb.velocity.y;
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        rb.velocity = directionIntentY * Input.GetAxis("Vertical") * flySpeed + directionIntentX * Input.GetAxis("Horizontal") * flySpeed + Vector3.up * rb.velocity.y; //Movement controls.
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed); //Clamp the speed of the drone.
 
-        if (Input.GetKey(KeyCode.LeftControl)) //Lower the drone.
+        if (Input.GetKey(KeyCode.LeftControl))
         {
-            transform.Translate(Vector3.down * (verticalSpeed / 100));
+            transform.Translate(Vector3.down * (verticalSpeed / 100)); //Decrease vertical movement.
         }
-        if (Input.GetKey(KeyCode.Space)) //Higher the drone.
+        if (Input.GetKey(KeyCode.Space)) 
         {
-            transform.Translate(Vector3.up * (verticalSpeed / 100));
+            transform.Translate(Vector3.up * (verticalSpeed / 100)); //Increase vertical movement.
         }
     }  
 }
